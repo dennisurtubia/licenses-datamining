@@ -1,6 +1,7 @@
 #!/bin/python3
 
 import os
+import sys
 import csv
 import json
 from pprint import pprint
@@ -14,7 +15,16 @@ if not os.path.exists('repositories'):
 
 projects = {}
 
-for (name, url) in repositories:
+PROCESS_NUMBER = 2
+
+HALF = int(len(repositories) / PROCESS_NUMBER)
+
+START = 0 if int(sys.argv[1]) == 0 else HALF
+END = START + HALF
+
+for (name, url) in repositories[START:END]:
+    print(name)
+
     path = f'repositories/{name}'
 
     os.system(f'[ -d {path} ] || git clone {url} {path}')
